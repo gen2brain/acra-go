@@ -16,13 +16,13 @@ import (
 )
 
 const (
-	// Server name
+	// Name is server name
 	Name = "acra-go"
-	// Server version
+	// Version is server version
 	Version = "1.0"
 )
 
-// HTTP server
+// Server struct
 type Server struct {
 	Bind             string
 	Database         database.DB
