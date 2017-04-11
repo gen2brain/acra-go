@@ -12,7 +12,7 @@ import (
 var (
 	// ErrNoKey is returned when key doesn't exist
 	ErrNoKey = errors.New("Key doesn't exist")
-	// ErrNoNucket is returned when bucket doesn't exist
+	// ErrNoBucket is returned when bucket doesn't exist
 	ErrNoBucket = errors.New("Bucket doesn't exist")
 )
 

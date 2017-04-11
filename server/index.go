@@ -5,7 +5,7 @@ import (
 	"net/http"
 )
 
-// Index
+// Index struct
 type Index struct {
 }
 

@@ -4,7 +4,7 @@ import (
 	"time"
 )
 
-// ACRA (Application Crash Reports for Android) report
+// Report (Application Crash Reports for Android) struct
 type Report struct {
 	AndroidVersion   string  `json:"ANDROID_VERSION" form:"ANDROID_VERSION"`
 	AppVersionCode   int     `json:"APP_VERSION_CODE" form:"APP_VERSION_CODE"`

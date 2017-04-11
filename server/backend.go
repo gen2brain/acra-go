@@ -8,7 +8,7 @@ import (
 	"github.com/gen2brain/acra-go/database"
 )
 
-// Backend
+// Backend struct
 type Backend struct {
 	DB database.DB
 }

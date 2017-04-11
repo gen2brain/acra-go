@@ -4,7 +4,7 @@ import (
 	"github.com/gen2brain/acra-go/acra"
 )
 
-// Database interface
+// DB interface
 type DB interface {
 	// Open opens database
 	Open(file string) error

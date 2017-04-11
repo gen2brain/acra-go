@@ -8,7 +8,7 @@ import (
 	"github.com/gen2brain/acra-go/database"
 )
 
-// Frontend
+// Frontend struct
 type Frontend struct {
 	DB database.DB
 }
