@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html style="overflow-y:scroll;">
+
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+        <title>ACRA Reports</title>
+
+        <link rel="stylesheet" href="/assets/css/materialize.min.css" />
+        <link rel="stylesheet" href="/assets/css/materialize.icons.css" />
+
+        <script src="/assets/js/jquery.min.js"></script>
+        <script src="/assets/js/moment.min.js"></script>
+        <script src="/assets/js/materialize.min.js"></script>
+        <script src="/assets/js/vue.min.js"></script>
+    </head>
+
+    <body>
+
+        <div id="app">
+
+            <div class="container">
+
+                <nav class="teal">
+                    <div class="nav-wrapper">
+                        <span class="brand-logo left">&nbsp;Android Application Crash Reports</span>
+                        <ul id="nav-mobile" class="right hide-on-med-and-down">
+                            <li><a href="#" v-on:click="getReports($event)"><i class="material-icons left">refresh</i>Refresh</a></li>
+                        </ul>
+                    </div>
+                </nav>
+
+                <br/>
+
+                <div class="row" style="margin-left:26px; margin-right:26px;">
+                    <div class="col s2 center-align"><b>Package</b></div>
+                    <div class="col s2 center-align"><b>Exception</b></div>
+                    <div class="col s2 center-align"><b>App Version</b></div>
+                    <div class="col s2 center-align"><b>Device</b></div>
+                    <div class="col s2 center-align"><b>Reported</b></div>
+                    <div class="col s1 center-align"></div>
+                </div>
+
+                <ul class="collapsible popout" data-collapsible="accordion">
+                    <li v-for="(report,$index) in reports">
+
+                        <div class="collapsible-header" v-on:click="setIndex($index)">
+                            <div class="row valign-wrapper">
+                                <div class="col s2 center-align valign">{{ report.PACKAGE_NAME }}</div>
+                                <div class="col s2 center-align valign">{{ report.STACK_TRACE.split(':')[0] }}</div>
+                                <div class="col s2 center-align valign">{{ report.APP_VERSION_NAME }} ({{ report.APP_VERSION_CODE }})</div>
+                                <div class="col s2 center-align valign">{{ report.BRAND }} {{ report.PHONE_MODEL }} ({{ report.ANDROID_VERSION }})</div>
+                                <div class="col s2 center-align valign">{{ report.USER_CRASH_DATE | formatDate }}</div>
+                                <div class="col s2 center-align valign"><a href="#" v-on:click="deleteReport($index, $event)"><i class="material-icons right">delete</i></a></div>
+                            </div>
+                        </div>
+
+                        <div class="collapsible-body">
+                            <div class="row">
+                                <ul class="tabs">
+                                    <li class="tab col s2"><a v-bind:href="'#t1' + $index" class="teal-text active">Stack Trace</a></li>
+                                    <li class="tab col s2"><a v-bind:href="'#t2' + $index" class="teal-text">Logcat</a></li>
+                                    <li class="tab col s2"><a v-bind:href="'#t3' + $index" class="teal-text">Dumpsys Meminfo</a></li>
+                                    <div class="indicator teal" style="z-index:1;"></div>
+                                </ul>
+                                <div v-bind:id="'t1' + $index" class="col s10 offset-s1"><small><pre>{{ report.STACK_TRACE }}</pre></small></div>
+                                <div v-bind:id="'t2' + $index" class="col s10 offset-s1"><small><pre>{{ report.LOGCAT }}</pre></small></div>
+                                <div v-bind:id="'t3' + $index" class="col s10 offset-s1"><small><pre>{{ report.DUMPSYS_MEMINFO }}</pre></small></div>
+                            </div>
+                        </div>
+
+                    </li>
+                </ul>
+
+                <div class="progress" v-show="loading">
+                    <div class="indeterminate"></div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </body>
+
+    <script>
+        Vue.filter('formatDate', function(value) {
+            if(value) {
+                return moment(String(value)).format('MM/DD/YYYY hh:mm')
+            }
+        })
+
+        var app = new Vue({
+            el: '#app',
+
+            data: {
+                reports: [],
+                loading: false
+            },
+
+            created: function() {
+                this.getReports(null);
+            },
+
+            updated: function() {
+                $('.collapsible').collapsible({
+                    onOpen: function(el) {
+                        // https://github.com/Dogfalo/materialize/issues/2102
+                        window.dispatchEvent(new Event('resize'));
+                }
+                });
+
+                $('ul.tabs').tabs();
+            },
+
+            methods: {
+
+                getReports: function(e) {
+                    var self = this;
+                    if(e != null) {
+                        e.preventDefault();
+                        self.loading = true;
+                    }
+
+                    $.ajax({
+                        url: '/view',
+                        type: 'GET',
+                        dataType: 'json',
+                        success: function(data) {
+                            self.reports = data;
+                            self.loading = false;
+                        },
+                        error: function(jqXHR, textStatus, errorThrown) { 
+                            self.loading = false;
+                            console.log("Error: " + errorThrown); 
+                        }
+                    });
+                },
+
+                deleteReport: function(idx, e) {
+                    var self = this;
+                    if(e != null) {
+                        e.preventDefault();
+                    }
+
+                    $.ajax({
+                        url: '/view?id=' +  self.reports[idx].REPORT_ID,
+                        type: 'DELETE',
+                        success: function(data) {
+                            self.reports.splice(idx, 1);
+                        },
+                        error: function(jqXHR, textStatus, errorThrown) { 
+                            console.log("Error: " + errorThrown); 
+                        }
+                    });
+                }
+            }
+        })
+    </script>
+
+</html>

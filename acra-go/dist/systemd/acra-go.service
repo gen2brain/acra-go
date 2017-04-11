@@ -1,0 +1,10 @@
+[Unit]
+Description=ACRA Backend
+
+[Service]
+User=daemon
+Group=daemon
+ExecStart=/usr/bin/acra-go -database-dir /var/lib/acra-go
+
+[Install]
+WantedBy=multi-user.target
