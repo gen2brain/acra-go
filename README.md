@@ -12,7 +12,7 @@ This will install server in `$GOPATH/bin/acra-go`.
 
 Binary for linux/amd64 is available:
 
- - [acra-go-1.0](https://github.com/gen2brain/acra-go/releases/download/1.0/acra-go-1.0.tar.gz)
+ - [acra-go-1.1](https://github.com/gen2brain/acra-go/releases/download/1.1/acra-go-1.1.tar.gz)
 
 ### Setup
 
