@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/nu7hatch/gouuid"
+
 	"github.com/gen2brain/acra-go/acra"
 	"github.com/gen2brain/acra-go/database"
 )
@@ -46,6 +48,17 @@ func (b *Backend) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 
 	defer r.Body.Close()
+
+	if report.ReportID == "" {
+		id, err := uuid.NewV4()
+		if err != nil {
+			msg := fmt.Sprintf("500 Internal Server Error (%s)", err.Error())
+			http.Error(w, msg, http.StatusInternalServerError)
+			return
+		}
+
+		report.ReportID = id.String()
+	}
 
 	err = b.DB.Put(report.ReportID, report)
 	if err != nil {

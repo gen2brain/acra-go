@@ -19,7 +19,7 @@ const (
 	// Name is server name
 	Name = "acra-go"
 	// Version is server version
-	Version = "1.0"
+	Version = "1.1"
 )
 
 // Server struct
