@@ -28,4 +28,4 @@ fi
 pushd server
 ../bin/go-bindata -o bindata.go -pkg server assets/... app/...
 popd
-go build -o bin/acra-go src/github.com/gen2brain/acra-go/acra-go/main_leveldb.go
+go build -o bin/acra-go src/github.com/gen2brain/acra-go/cli/main.go

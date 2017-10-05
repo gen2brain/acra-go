@@ -1,0 +1,41 @@
+- name: install prerequisites
+  become: yes
+  raw: >
+    apt-get install -y python rsync
+
+- name: create-user
+  become: yes
+  user:
+    name: acra-go
+    shell: /bin/bash
+
+- name: create-dir
+  become: yes
+  file:
+    name: /opt/acra-go
+    state: directory
+    owner: acra-go
+    group: acra-go
+    recurse: yes
+
+- name: sync
+  become: yes
+  synchronize:
+    dest: /opt/acra-go/acra-go
+    src: ../bin/acra-go
+  notify: 'restart'
+
+- name: frontend-htpasswd
+  become: yes
+  htpasswd:
+    path: /opt/acra-go/acra-go.htpasswd
+    name: "{{ front_user }}"
+    password: "{{ front_password }}"
+
+- name: "install-service"
+  become: yes
+  command: /opt/acra-go/acra-go ops install -- --htpasswd-frontend /opt/acra-go/acra-go.htpasswd
+  args:
+    chdir: "/opt/acra-go"
+  notify: restart
+    

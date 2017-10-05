@@ -4,4 +4,7 @@ vendor/*
 bin/
 reports/
 src/
+ansible/hosts-*
+ansible/playbook-acra-servers.retry
+!ansible/hosts-contained
 !vendor/.gitignore

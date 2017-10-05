@@ -1,0 +1,5 @@
+- name: restart
+  become: yes
+  service:
+    name: acra-go
+    state: started

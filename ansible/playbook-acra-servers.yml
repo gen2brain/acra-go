@@ -1,0 +1,3 @@
+- hosts: acra-servers
+  roles:
+  - acra-go
