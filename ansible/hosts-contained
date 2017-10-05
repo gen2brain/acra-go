@@ -1,2 +1,2 @@
 [acra-servers]
-10.0.3.114
+10.0.3.114 front_user=acra-go front_password=secret

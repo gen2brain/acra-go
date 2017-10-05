@@ -25,9 +25,16 @@
     src: ../bin/acra-go
   notify: 'restart'
 
+- name: frontend-htpasswd
+  become: yes
+  htpasswd:
+    path: /opt/acra-go/acra-go.htpasswd
+    name: "{{ front_user }}"
+    password: "{{ front_password }}"
+
 - name: "install-service"
   become: yes
-  command: /opt/acra-go/acra-go ops install
+  command: /opt/acra-go/acra-go ops install -- --htpasswd-frontend /opt/acra-go/acra-go.htpasswd
   args:
     chdir: "/opt/acra-go"
   notify: restart
