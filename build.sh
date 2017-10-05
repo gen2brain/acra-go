@@ -1,4 +1,10 @@
 #!/bin/bash
+#
+# This build file will build acra-go by creating a src/ directory that 
+# symlinks the github/gen2brain/acra-go directory back to this directory,
+# and then does all the required go-installs to get the necessary packages
+# for vendor management, and the other required tools.
+# It's rather hacky, but it works.
 set -e
 export GOPATH=`pwd`
 if [[ ! -d src ]]; then
