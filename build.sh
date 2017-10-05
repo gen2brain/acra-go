@@ -16,7 +16,7 @@ fi
 if [[ ! -x bin/govendor ]]; then
 	go get -u github.com/kardianos/govendor/...
 	pushd src/github.com/gen2brain/acra-go
-	../../../../bin/govendor sync
+	bin/govendor sync
 	popd
 fi
 pushd server
