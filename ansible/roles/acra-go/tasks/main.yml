@@ -1,0 +1,34 @@
+- name: install prerequisites
+  become: yes
+  raw: >
+    apt-get install -y python rsync
+
+- name: create-user
+  become: yes
+  user:
+    name: acra-go
+    shell: /bin/bash
+
+- name: create-dir
+  become: yes
+  file:
+    name: /opt/acra-go
+    state: directory
+    owner: acra-go
+    group: acra-go
+    recurse: yes
+
+- name: sync
+  become: yes
+  synchronize:
+    dest: /opt/acra-go/acra-go
+    src: ../bin/acra-go
+  notify: 'restart'
+
+- name: "install-service"
+  become: yes
+  command: /opt/acra-go/acra-go ops install
+  args:
+    chdir: "/opt/acra-go"
+  notify: restart
+    

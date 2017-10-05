@@ -8,6 +8,10 @@ Backend for Application Crash Reports for Android - [ACRA](https://github.com/AC
 
 This will install server in `$GOPATH/bin/acra-go`.
 
+### Building
+
+The `build.sh` script should configure your system on Linux and build the leveldb version of acra-go in `bin/acra-go`.
+
 ### Download
 
 Binary for linux/amd64 is available:
