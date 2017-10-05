@@ -1,0 +1,7 @@
+.cache/
+pkg/
+vendor/*
+bin/
+reports/
+src/
+!vendor/.gitignore
