@@ -22,22 +22,6 @@ Server by default listens on port 55000, you can bind it to other port like this
 
     acra-go -bind-addr :80
 
-Usually you will want to proxy requests through your existing server:
-
-##### Nginx
-
-```
-location /acra {
-    proxy_pass         http://127.0.0.1:55000;
-}
-```
-
-##### Apache
-
-```
-ProxyPass /acra http://127.0.0.1:55000/
-```
-
 #### Client
 
 ACRA should send reports to `http://example.com/path/send`. Example annotation of your Android `Application` class:
