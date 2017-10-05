@@ -28,10 +28,10 @@ Server by default listens on port 55000, you can bind it to other port like this
 
 #### Client
 
-ACRA should send reports to `http://example.com/path/send`. Example annotation of your Android `Application` class:
+ACRA should send reports to `http://example.com:55000/send`. Example annotation of your Android `Application` class:
 
 ```java
-@ReportsCrashes(formUri = "http://example.com/acra/send",
+@ReportsCrashes(formUri = "http://example.com:55000/send",
                 formUriBasicAuthLogin = "yourusername", // optional
                 formUriBasicAuthPassword = "y0uRpa$$w0rd", // optional
                 reportType = org.acra.sender.HttpSender.Type.JSON, // recommended
